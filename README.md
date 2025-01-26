@@ -1,8 +1,8 @@
 # Tripleten web_project_around
 
-## Proyecto 8: Alrededor de los EE.UU
+## Proyecto 13: Alrededor de los EE.UU-REACT
 
-Siguiendo con la creación de proyectos, en esta ocación es la creacion de una red social para compartir momentos inolvidables.
+Siguiendo con la creación de proyectos, en esta ocación es la creacion de una red social para compartir momentos inolvidables, usando REACT con VITE.
 
 ## Características del proyecto
 
