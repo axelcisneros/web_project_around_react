@@ -7,23 +7,7 @@ function App() {
     <>
       <Header />
       <Main />
-      <Footer />
-      <template id="main__template">
-        <div className="main__gallery-card">
-          <img className="main__gallery-image" />
-          <button
-            type="button"
-            className="main__button main__button_trash"
-          ></button>
-          <div className="main__gallery-content">
-            <p className="main__gallery-paragraph"></p>
-            <button
-              type="button"
-              className="main__button main__button_like"
-            ></button>
-          </div>
-        </div>
-      </template>      
+      <Footer />      
     </>
   )
 }
