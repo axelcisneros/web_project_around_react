@@ -22,6 +22,12 @@ Siguiendo con la creación de proyectos, en esta ocación es la creacion de una 
 - REACT
 - VITE
 
+## Dependencies
+
+ -"gh-pages": "^6.3.0",
+ -"react": "^18.3.1",
+ -"react-dom": "^18.3.1"
+
 ## Funsionalidad
 
 La pagina es una galeria de arte, en la que se muestran los lugares de donde provienen nuestros colegas, reunidos en la ciudad Triple Ten iniciando con la bienvenida y descripción:
