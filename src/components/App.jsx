@@ -9,6 +9,7 @@ import CurrentUserContext from '@contexts/CurrentUserContext.js';
 function App() {
   const [popup, setPopup] = useState(null);
   const [currentUser, setCurrentUser] = useState("");
+  const [ isLoading, setIsLoading] = useState(false);
   const [cards, setCards] = useState([]);
 
   function handleOpenPopup(popup) {
@@ -41,11 +42,15 @@ function App() {
 
   async function handleCardDelete(cardId) {
     try {
+      setIsLoading(true);
       const isId = cardId;
       await api.removeCard(isId);
       
       setCards((state) => state.filter((card) => card._id !== isId));
-      handleClosePopup();
+      setTimeout(() => {
+        setIsLoading(false);
+        handleClosePopup();
+      }, 2000);
     } catch (error) {
       console.error(error);
     }
@@ -53,33 +58,45 @@ function App() {
 
   const handleUpdateUser = (name, about) => {
     (async () => {
+      setIsLoading(true);
       await api.setUserInfo(name, about).then((newData) => {
       setCurrentUser(newData);
-      handleClosePopup();
+      setTimeout(() => {
+        setIsLoading(false);
+        handleClosePopup();
+      }, 2000);
       });
     })();
   };
 
   const handleUpdateAvatar = (data) => {
     (async () => {
+      setIsLoading(true);
       await api.updateAvatar(data).then((newData) => {
         setCurrentUser(newData);
-        handleClosePopup();
+        setTimeout(() => {
+          setIsLoading(false);
+          handleClosePopup();
+        }, 2000);
       });
     })();
   };
 
   const handleAddPlaceSubmit = (data) => {
     (async () => {
+      setIsLoading(true);
       await api.addCard(data).then((newCard) => {
         setCards([newCard, ...cards]);
-        handleClosePopup();
+        setTimeout(() => {
+          setIsLoading(false);
+          handleClosePopup();
+        }, 2000);
       });
     })();
   };
 
   return (
-    <CurrentUserContext.Provider value={{currentUser, handleUpdateUser, handleUpdateAvatar, handleAddPlaceSubmit}}>
+    <CurrentUserContext.Provider value={{currentUser, handleUpdateUser, handleUpdateAvatar, handleAddPlaceSubmit, isLoading}}>
       <div className='page'>
         <Header />
         <Main

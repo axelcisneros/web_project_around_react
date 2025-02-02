@@ -5,9 +5,7 @@ import useFormValidation from '@utils/useFormValidation.js';
 export default function EditProfile(props) {
   const { validationConfig } = props;
   const userContext = useContext(CurrentUserContext); // Obtiene el objeto currentUser
-  const { currentUser, handleUpdateUser } = userContext;
-  
-
+  const { currentUser, handleUpdateUser, isLoading } = userContext;
   const [name, setName] = useState(currentUser.name);
   const [about, setAbout] = useState(currentUser.about);
   const formRef = useRef(null);
@@ -16,7 +14,6 @@ export default function EditProfile(props) {
   useEffect(() => {
     resetValidation();
   }, [resetValidation]);
-
   
   const handleNameChange = (e) => {
     setName(e.target.value); // Actualiza name cuando cambie la entrada
@@ -38,7 +35,7 @@ export default function EditProfile(props) {
               <label className="popup__field popup__field_top">
                 <input
                   type="text"
-                  className="popup__input popup__input_name"
+                  className="popup__input"
                   placeholder="Nombre"
                   minLength="2"
                   maxLength="40"
@@ -53,7 +50,7 @@ export default function EditProfile(props) {
               <label className="popup__field">
                 <input
                   type="text"
-                  className="popup__input popup__input_about"
+                  className="popup__input"
                   placeholder="Acerca de mi"
                   minLength="2"
                   maxLength="200"
@@ -69,7 +66,7 @@ export default function EditProfile(props) {
               type="submit"
               className="popup__button popup__button_save"
               >
-                Guardar
+                {isLoading ? "Guardando.." : "Guardar"}
               </button>
             </fieldset>
         </form>

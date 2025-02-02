@@ -2,12 +2,10 @@ import { useState, useContext, useRef, useEffect } from 'react';
 import CurrentUserContext from '@contexts/CurrentUserContext';
 import useFormValidation from '@utils/useFormValidation.js';
 
-
 export default function NewCard(props) {
   const { validationConfig } = props;
   const onAddPlace = useContext(CurrentUserContext);
-  const { handleAddPlaceSubmit } = onAddPlace;
-
+  const { handleAddPlaceSubmit, isLoading } = onAddPlace;
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
   const formRef = useRef(null);
@@ -36,7 +34,7 @@ export default function NewCard(props) {
               <label className="popup__field popup__field_top">
                 <input
                   type="text"
-                  className="popup__input popup__input_title"
+                  className="popup__input"
                   placeholder="Titulo"
                   minLength="2"
                   maxLength="30"
@@ -51,7 +49,7 @@ export default function NewCard(props) {
               <label className="popup__field">
                 <input
                   type="url"
-                  className="popup__input popup__input_url"
+                  className="popup__input"
                   placeholder="URL a la imagen"
                   id="url-input"
                   name="cardLink"
@@ -65,7 +63,7 @@ export default function NewCard(props) {
               type="submit"
               className="popup__button popup__button_add"
               >
-                Guardar
+                {isLoading ? "Guardando.." : "Guardar"}
               </button>
             </fieldset>
         </form>

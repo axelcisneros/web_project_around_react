@@ -5,10 +5,9 @@ import useFormValidation from '@utils/useFormValidation.js';
 export default function EditAvatar(props) {
   const { validationConfig } = props;
   const userContext = useContext(CurrentUserContext); // Obtiene el objeto currentUser
-  const { handleUpdateAvatar } = userContext;
+  const { handleUpdateAvatar, isLoading } = userContext;
   const refAvatar = useRef(); // Crea una referencia
-  const [avatar, setAvatar] = useState(""); // Crea el estado para el avatar
-  
+  const [avatar, setAvatar] = useState(""); // Crea el estado para el avatar  
   const formRef = useRef(null);
   const { resetValidation } = useFormValidation(validationConfig, formRef);
 
@@ -19,7 +18,6 @@ export default function EditAvatar(props) {
   const handleAvatarChange = (e) => {
     setAvatar(e.target.value); // Actualiza avatar cuando cambie la entrada
   }
-
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -35,7 +33,7 @@ export default function EditAvatar(props) {
               <label className="popup__field popup__field_top">
                 <input
                   type="url"
-                  className="popup__input popup__input_img"
+                  className="popup__input"
                   placeholder="URL a la imagen"
                   id="i-url-input"
                   ref={refAvatar} // Vincula la referencia al campo de entrada
@@ -50,7 +48,7 @@ export default function EditAvatar(props) {
               type="submit"
               className="popup__button popup__button_img"
               >
-                Guardar
+                {isLoading ? "Guardando.." : "Guardar"}
               </button>
             </fieldset>
           </form>
