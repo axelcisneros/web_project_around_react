@@ -1,21 +1,27 @@
-import { useEffect, useState, useContext } from 'react';
+import { useContext } from 'react';
 import Popup from '../Main/components/Popup/Popup.jsx';
 import NewCard from '../Main/components/form/NewCard/NewCard.jsx';
 import EditProfile from '../Main/components/form/EditProfile/EditProfile.jsx';
 import EditAvatar from '../Main/components/form/EditAvatar/EditAvatar.jsx';
+import RemoveCard from '../Main/components/RemoveCard/RemoveCard.jsx';
 import Card from '../Main/components/Card/Card.jsx';
 import ImagePopup from '../Main/components/ImagePopup/ImagePopup.jsx';
 import CurrentUserContext from '@contexts/CurrentUserContext.js';
+import { validationConfig } from '@utils/validationConfig.js';
 
 function Main(props) {
     const { popup, onOpenPopup, onClosePopup, cards, onCardLike, onCardDelete } = props;
-    const newCardPopup = { title: "Nuevo lugar", children: <NewCard /> };
-    const editProfolePopup = { title: "Nuevo lugar", children: <EditProfile /> };
-    const editAvatarPopup = { title: "Nuevo avatar", children: <EditAvatar /> };
+    const newCardPopup = { title: "Nuevo lugar", children: <NewCard validationConfig={validationConfig} /> };
+    const editProfolePopup = { title: "Nuevo lugar", children: <EditProfile validationConfig={validationConfig} /> };
+    const editAvatarPopup = { title: "Nuevo avatar", children: <EditAvatar validationConfig={validationConfig} /> };
     const { currentUser } = useContext(CurrentUserContext);
 
     function handleCardClick(card) {
         onOpenPopup({ children: <ImagePopup card={card} /> });
+    }
+
+    function handleTrashClick(card) {
+        onOpenPopup({ title: "¿Estás seguro?", children: <RemoveCard onCardDelete={onCardDelete} card={card}/> });
     }
 
     return (
@@ -60,7 +66,7 @@ function Main(props) {
                     card={card}
                     handleCardClick={handleCardClick}
                     onCardLike={onCardLike}
-                    onCardDelete={onCardDelete}
+                    handleTrashClick={handleTrashClick}
                     />
                 ))}
             </ul>

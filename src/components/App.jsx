@@ -41,10 +41,11 @@ function App() {
 
   async function handleCardDelete(cardId) {
     try {
-      const isId = cardId._id;
+      const isId = cardId;
       await api.removeCard(isId);
       
       setCards((state) => state.filter((card) => card._id !== isId));
+      handleClosePopup();
     } catch (error) {
       console.error(error);
     }

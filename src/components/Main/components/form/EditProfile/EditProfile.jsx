@@ -1,13 +1,21 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import CurrentUserContext from '@contexts/CurrentUserContext';
+import useFormValidation from '@utils/useFormValidation.js';
 
-export default function EditProfile() {
+export default function EditProfile(props) {
+  const { validationConfig } = props;
   const userContext = useContext(CurrentUserContext); // Obtiene el objeto currentUser
   const { currentUser, handleUpdateUser } = userContext;
   
 
   const [name, setName] = useState(currentUser.name);
   const [about, setAbout] = useState(currentUser.about);
+  const formRef = useRef(null);
+  const { resetValidation } = useFormValidation(validationConfig, formRef);
+
+  useEffect(() => {
+    resetValidation();
+  }, [resetValidation]);
 
   
   const handleNameChange = (e) => {
@@ -25,7 +33,7 @@ export default function EditProfile() {
   };
 
     return (
-        <form className="popup__form form-edit" noValidate onSubmit={handleSubmit}>
+        <form className="popup__form" noValidate onSubmit={handleSubmit} ref={formRef}>
             <fieldset className="popup__content">
               <label className="popup__field popup__field_top">
                 <input

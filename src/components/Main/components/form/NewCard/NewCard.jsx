@@ -1,12 +1,21 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import CurrentUserContext from '@contexts/CurrentUserContext';
+import useFormValidation from '@utils/useFormValidation.js';
 
-export default function NewCard() {
+
+export default function NewCard(props) {
+  const { validationConfig } = props;
   const onAddPlace = useContext(CurrentUserContext);
   const { handleAddPlaceSubmit } = onAddPlace;
 
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
+  const formRef = useRef(null);
+  const { resetValidation } = useFormValidation(validationConfig, formRef);
+
+  useEffect(() => {
+    resetValidation();
+  }, [resetValidation]);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -19,9 +28,10 @@ export default function NewCard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await handleAddPlaceSubmit({ name, link });
+    resetValidation();
   };
     return (
-        <form className="popup__form form-add" noValidate onSubmit={handleSubmit}>
+        <form className="popup__form" noValidate onSubmit={handleSubmit} ref={formRef}>
             <fieldset className="popup__content">
               <label className="popup__field popup__field_top">
                 <input
@@ -36,7 +46,7 @@ export default function NewCard() {
                   onChange={handleNameChange}
                   required
                 />
-                <span className="popup__input-error title-input-error"></span>
+                <span className="popup__input-error title-input-error" ></span>
               </label>
               <label className="popup__field">
                 <input
@@ -49,7 +59,7 @@ export default function NewCard() {
                   onChange={handleLinkChange}
                   required
                 />
-                <span className="popup__input-error url-input-error"></span>
+                <span className="popup__input-error url-input-error" ></span>
               </label>
               <button
               type="submit"
