@@ -1,4 +1,4 @@
-import { useState, useContext, useRef, useEffect } from 'react';
+import { useContext, useRef, useEffect } from 'react';
 import CurrentUserContext from '@contexts/CurrentUserContext';
 import useFormValidation from '@utils/useFormValidation.js';
 
@@ -39,7 +39,7 @@ export default function EditAvatar(props) {
               </label>
               <button
               type="submit"
-              className="popup__button popup__button_img"
+              className="popup__button"
               >
                 {isLoading ? "Guardando.." : "Guardar"}
               </button>

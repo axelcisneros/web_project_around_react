@@ -64,7 +64,7 @@ export default function EditProfile(props) {
               </label>
               <button
               type="submit"
-              className="popup__button popup__button_save"
+              className="popup__button"
               >
                 {isLoading ? "Guardando.." : "Guardar"}
               </button>

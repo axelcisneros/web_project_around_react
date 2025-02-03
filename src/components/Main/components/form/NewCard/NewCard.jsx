@@ -61,7 +61,7 @@ export default function NewCard(props) {
               </label>
               <button
               type="submit"
-              className="popup__button popup__button_add"
+              className="popup__button"
               >
                 {isLoading ? "Guardando.." : "Guardar"}
               </button>
