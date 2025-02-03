@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 const useFormValidation = (config, formRef) => {
   const [inputList, setInputList] = useState([]);
   const [buttonElement, setButtonElement] = useState(null);
+  const [errors, setErrors] = useState({})
+  const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
     const form = formRef.current;
@@ -17,6 +19,7 @@ const useFormValidation = (config, formRef) => {
       const errorElement = formRef.current.querySelector(`.${inputElement.id}-error`);
       if (errorElement) {
         inputElement.classList.add(config.inputErrorClass);
+        setErrors((state) => ({...state, [inputElement.id]:errorMessage}))
         errorElement.textContent = errorMessage;
         errorElement.classList.add(config.errorClass);
       }
@@ -28,6 +31,7 @@ const useFormValidation = (config, formRef) => {
       const errorElement = formRef.current.querySelector(`.${inputElement.id}-error`);
       if (errorElement) {
         inputElement.classList.remove(config.inputErrorClass);
+        setErrors((state) => ({...state, [inputElement.id]:""}))
         errorElement.classList.remove(config.errorClass);
         errorElement.textContent = "";
       }
@@ -75,6 +79,7 @@ const useFormValidation = (config, formRef) => {
   
       // Guardar referencia para eliminar el event listener más tarde
       inputElement.onInput = onInput;
+      setIsReady(true);
     });
   
     return () => {
@@ -93,7 +98,7 @@ const useFormValidation = (config, formRef) => {
     toggleButtonState();
   };
 
-  return { resetValidation };
+  return { resetValidation, errors, isReady };
 };
 
 export default useFormValidation;

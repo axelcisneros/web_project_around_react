@@ -9,11 +9,11 @@ export default function NewCard(props) {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
   const formRef = useRef(null);
-  const { resetValidation } = useFormValidation(validationConfig, formRef);
+  const { resetValidation, errors, isReady } = useFormValidation(validationConfig, formRef);
 
   useEffect(() => {
     resetValidation();
-  }, [resetValidation]);
+  }, [isReady]);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -44,7 +44,7 @@ export default function NewCard(props) {
                   onChange={handleNameChange}
                   required
                 />
-                <span className="popup__input-error title-input-error" ></span>
+                <span className="popup__input-error title-input-error" >{errors.id}</span>
               </label>
               <label className="popup__field">
                 <input
@@ -57,7 +57,7 @@ export default function NewCard(props) {
                   onChange={handleLinkChange}
                   required
                 />
-                <span className="popup__input-error url-input-error" ></span>
+                <span className="popup__input-error url-input-error" >{errors.id}</span>
               </label>
               <button
               type="submit"

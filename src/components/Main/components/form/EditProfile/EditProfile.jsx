@@ -9,11 +9,11 @@ export default function EditProfile(props) {
   const [name, setName] = useState(currentUser.name);
   const [about, setAbout] = useState(currentUser.about);
   const formRef = useRef(null);
-  const { resetValidation } = useFormValidation(validationConfig, formRef);
+  const { resetValidation, errors, isReady } = useFormValidation(validationConfig, formRef);
 
   useEffect(() => {
     resetValidation();
-  }, [resetValidation]);
+  }, [isReady]);
   
   const handleNameChange = (e) => {
     setName(e.target.value); // Actualiza name cuando cambie la entrada
@@ -45,7 +45,7 @@ export default function EditProfile(props) {
                   name="userName"
                   required
                 />
-                <span className="popup__input-error name-input-error"></span>
+                <span className="popup__input-error name-input-error">{errors.id}</span>
               </label>
               <label className="popup__field">
                 <input
@@ -60,7 +60,7 @@ export default function EditProfile(props) {
                   name="userAbout"
                   required
                 />
-                <span className="popup__input-error about-input-error"></span>
+                <span className="popup__input-error about-input-error">{errors.id}</span>
               </label>
               <button
               type="submit"

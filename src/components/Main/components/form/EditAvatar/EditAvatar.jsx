@@ -6,18 +6,13 @@ export default function EditAvatar(props) {
   const { validationConfig } = props;
   const userContext = useContext(CurrentUserContext); // Obtiene el objeto currentUser
   const { handleUpdateAvatar, isLoading } = userContext;
-  const refAvatar = useRef(); // Crea una referencia
-  const [avatar, setAvatar] = useState(""); // Crea el estado para el avatar  
+  const refAvatar = useRef(); // Crea una referencia 
   const formRef = useRef(null);
-  const { resetValidation } = useFormValidation(validationConfig, formRef);
+  const { resetValidation, errors, isReady } = useFormValidation(validationConfig, formRef);
 
   useEffect(() => {
     resetValidation();
-  }, [resetValidation]);
-
-  const handleAvatarChange = (e) => {
-    setAvatar(e.target.value); // Actualiza avatar cuando cambie la entrada
-  }
+  }, [isReady]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -37,12 +32,10 @@ export default function EditAvatar(props) {
                   placeholder="URL a la imagen"
                   id="i-url-input"
                   ref={refAvatar} // Vincula la referencia al campo de entrada
-                  onChange={handleAvatarChange}
-                  value={avatar} // Establece el valor de la entrada
                   name="userAvatar"
                   required
                 />
-                <span className="popup__input-error i-url-input-error"></span>
+                <span className="popup__input-error i-url-input-error">{errors.id}</span>
               </label>
               <button
               type="submit"
