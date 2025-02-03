@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Header from './Header/Header.jsx';
 import Main from './Main/Main.jsx';
 import Footer from './Footer/Footer.jsx';
-import api from '../utils/api.js';
+import api from '@utils/api.js';
 import CurrentUserContext from '@contexts/CurrentUserContext.js';
 
 
@@ -11,6 +11,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState("");
   const [ isLoading, setIsLoading] = useState(false);
   const [cards, setCards] = useState([]);
+  const [disabled, setDisabled] = useState(true);
 
   function handleOpenPopup(popup) {
     setPopup(popup);
@@ -96,7 +97,7 @@ function App() {
   };
 
   return (
-    <CurrentUserContext.Provider value={{currentUser, handleUpdateUser, handleUpdateAvatar, handleAddPlaceSubmit, isLoading}}>
+    <CurrentUserContext.Provider value={{currentUser, handleUpdateUser, handleUpdateAvatar, handleAddPlaceSubmit, isLoading, disabled, setDisabled}}>
       <div className='page'>
         <Header />
         <Main

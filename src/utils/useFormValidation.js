@@ -1,3 +1,5 @@
+//Custom hook para validar FORMS con uso de useRef
+
 import { useEffect, useState } from 'react';
 
 const useFormValidation = (config, formRef) => {

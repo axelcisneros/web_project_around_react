@@ -1,3 +1,5 @@
+//Objeto de configuración 
+
 export const validationConfig = {
     formSelector: ".popup__form",
     inputSelector: ".popup__input",
