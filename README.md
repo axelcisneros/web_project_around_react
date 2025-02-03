@@ -26,10 +26,10 @@ Siguiendo con la creación de proyectos, en esta ocación es la creacion de una 
 
 ## Dependencies
 
- -gh-pages: ^6.3.0
- -react: ^18.3.1
- -react-dom: ^18.3.1
- -react-hook-form: ^7.54.2
+- gh-pages: ^6.3.0
+- react: ^18.3.1
+- react-dom: ^18.3.1
+- react-hook-form: ^7.54.2
 
 ## Funsionalidad
 
