@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import Popup from '../Main/components/Popup/Popup.jsx';
-import NewCard from '../Main/components/NewCard/NewCard.jsx';
-import EditProfile from '../Main/components/EditProfile/EditProfile.jsx';
-import EditAvatar from '../Main/components/EditAvatar/EditAvatar.jsx';
-import RemoveCard from '../Main/components/RemoveCard/RemoveCard.jsx';
+import NewCard from '../Main/components/Popup/NewCard/NewCard.jsx';
+import EditProfile from '../Main/components/Popup/EditProfile/EditProfile.jsx';
+import EditAvatar from '../Main/components/Popup/EditAvatar/EditAvatar.jsx';
+import RemoveCard from '../Main/components/Popup/RemoveCard/RemoveCard.jsx';
 import Card from '../Main/components/Card/Card.jsx';
-import ImagePopup from '../Main/components/ImagePopup/ImagePopup.jsx';
+import ImagePopup from '../Main/components/Popup/ImagePopup/ImagePopup.jsx';
 import CurrentUserContext from '@contexts/CurrentUserContext.js';
 import { validationConfig } from '@utils/validationConfig.js';
 
