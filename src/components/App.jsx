@@ -63,8 +63,8 @@ function App() {
       await api.setUserInfo(name, about).then((newData) => {
       setCurrentUser(newData);
       setTimeout(() => {
-        setIsLoading(false);
         handleClosePopup();
+        setIsLoading(false);
       }, 2000);
       });
     })();
@@ -76,8 +76,8 @@ function App() {
       await api.updateAvatar(data).then((newData) => {
         setCurrentUser(newData);
         setTimeout(() => {
-          setIsLoading(false);
           handleClosePopup();
+          setIsLoading(false);
         }, 2000);
       });
     })();
@@ -89,12 +89,13 @@ function App() {
       await api.addCard(data).then((newCard) => {
         setCards([newCard, ...cards]);
         setTimeout(() => {
-          setIsLoading(false);
           handleClosePopup();
+          setIsLoading(false);
         }, 2000);
       });
     })();
   };
+  
 
   return (
     <CurrentUserContext.Provider value={{currentUser, handleUpdateUser, handleUpdateAvatar, handleAddPlaceSubmit, isLoading, disabled, setDisabled}}>
