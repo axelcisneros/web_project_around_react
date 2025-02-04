@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import Popup from '../Main/components/Popup/Popup.jsx';
-import NewCard from '../Main/components/form/NewCard/NewCard.jsx';
+import NewCard from '../Main/components/NewCard/NewCard.jsx';
 import EditProfile from '../Main/components/form/EditProfile/EditProfile.jsx';
 import EditAvatar from '../Main/components/form/EditAvatar/EditAvatar.jsx';
 import RemoveCard from '../Main/components/RemoveCard/RemoveCard.jsx';
