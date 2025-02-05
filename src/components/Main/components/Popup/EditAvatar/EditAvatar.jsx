@@ -21,9 +21,14 @@ export default function EditAvatar(props) {
       avatar: refAvatar.current.value// El valor de la entrada que obtuvimos utilizando la ref  ,
     });
   }
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(onSubmit)();
+    }
+  };
 
     return (
-        <form className="popup__form" noValidate onSubmit={handleSubmit} ref={formRef}>
+        <form className="popup__form" noValidate onSubmit={handleSubmit} ref={formRef} onKeyDown={handleKeyDown}>
             <fieldset className="popup__content">
               <label className="popup__field popup__field_top">
                 <input

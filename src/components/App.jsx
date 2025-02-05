@@ -22,15 +22,26 @@ function App() {
   }
 
   useEffect(() => {
-    (async () => {
-      await api.getUserInfo().then((data) => {
+    const getUserData = async () => {
+      try {
+        const data = await api.getUserInfo();
         setCurrentUser(data);
-      });
-    })();
-  }, []);
-
-  useEffect(() => {
-    api.getInitialCards().then((cards) => setCards(cards)).catch(console.error);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    const getInitialCardsData = async () => {
+      try {
+        const cards = await api.getInitialCards();
+        setCards(cards);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    getUserData();
+    getInitialCardsData();
   }, []);
 
   async function handleCardLike(card) {

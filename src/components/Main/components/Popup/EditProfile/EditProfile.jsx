@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CurrentUserContext from '@contexts/CurrentUserContext';
-import errorMessages from '@utils/errorMessages'; // Importa el objeto de mensajes de error
+import errorMessages from '@utils/errorMessages';
+import { validateInput, INPUT_USER_NAME_MIN_LENGTH, INPUT_USER_NAME_MAX_LENGTH, INPUT_USER_ABOUT_MAX_LENGTH } from '@utils/validationUtils';
 
 export default function EditProfile(props) {
   const { validationConfig: config } = props;
@@ -13,29 +14,27 @@ export default function EditProfile(props) {
       userName: currentUser.name,
       userAbout: currentUser.about,
     },
-    mode: 'onChange', // Cambia el modo a onChange para validar en tiempo real
+    mode: 'onChange',
   });
 
   useEffect(() => {
-    trigger(); // Valida todos los campos para actualizar errores
+    trigger();
   }, [trigger]);
 
   useEffect(() => {
-    setDisabled(!isValid); // Deshabilitar el botón si el formulario no es válido
+    setDisabled(!isValid);
   }, [isValid]);
 
-  const watchedValues = watch(); // Observa todos los valores de los inputs
+  const watchedValues = watch();
 
   useEffect(() => {
     const hasErrors = Object.keys(errors).length > 0;
     const hasEmptyFields = Object.values(watchedValues).some(value => value.trim() === '');
 
-    // Actualiza el estado disabled
     setDisabled(hasErrors || hasEmptyFields);
   }, [errors, watchedValues]);
 
   const onSubmit = (data) => {
-    // Llamar a handleUpdateUser con los datos del formulario
     handleUpdateUser(data.userName, data.userAbout);
   };
 
@@ -44,18 +43,7 @@ export default function EditProfile(props) {
     input.setCustomValidity('');
 
     if (!input.checkValidity()) {
-      const validityState = input.validity;
-      let errorMessage = '';
-
-      if (validityState.valueMissing) {
-        errorMessage = errorMessages.required;
-      } else if (validityState.tooShort) {
-        errorMessage = errorMessages.minLength;
-      } else if (validityState.tooLong) {
-        errorMessage = errorMessages.maxLength;
-      } else if (validityState.typeMismatch && input.type === 'url') {
-        errorMessage = errorMessages.url;
-      }
+      const errorMessage = validateInput(input, errorMessages);
 
       input.setCustomValidity(errorMessage);
       setError(input.name, {
@@ -63,15 +51,21 @@ export default function EditProfile(props) {
         message: errorMessage,
       });
     } else {
-      input.setCustomValidity(''); // Limpiar el mensaje de validación
+      input.setCustomValidity('');
       clearErrors(input.name);
     }
 
-    input.reportValidity(); // Mostrar el mensaje de error del navegador
+    input.reportValidity();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(onSubmit)();
+    }
   };
 
   return (
-    <form className="popup__form" noValidate onSubmit={handleSubmit(onSubmit)}>
+    <form className="popup__form" noValidate onSubmit={handleSubmit(onSubmit)} onKeyDown={handleKeyDown}>
       <fieldset className="popup__content">
         <label className="popup__field popup__field_top">
           <input
@@ -80,9 +74,9 @@ export default function EditProfile(props) {
             placeholder="Nombre"
             id="name-input"
             {...register('userName', { 
-              required: 'Este campo es obligatorio.',
-              minLength: { value: 2, message: 'El texto es demasiado corto.' },
-              maxLength: { value: 40, message: 'El texto es demasiado largo.' },
+              required: errorMessages.required,
+              minLength: { value: INPUT_USER_NAME_MIN_LENGTH, message: errorMessages.minLength },
+              maxLength: { value: INPUT_USER_NAME_MAX_LENGTH, message: errorMessages.maxLength },
             })}
             onInput={handleValidation}
             onBlur={handleValidation}
@@ -96,9 +90,9 @@ export default function EditProfile(props) {
             placeholder="Acerca de mí"
             id="about-input"
             {...register('userAbout', { 
-              required: 'Este campo es obligatorio.',
-              minLength: { value: 2, message: 'El texto es demasiado corto.' },
-              maxLength: { value: 200, message: 'El texto es demasiado largo.' },
+              required: errorMessages.required,
+              minLength: { value: INPUT_USER_NAME_MIN_LENGTH, message: errorMessages.minLength },
+              maxLength: { value: INPUT_USER_ABOUT_MAX_LENGTH, message: errorMessages.maxLength },
             })}
             onInput={handleValidation}
             onBlur={handleValidation}

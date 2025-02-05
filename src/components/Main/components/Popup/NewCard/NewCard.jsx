@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CurrentUserContext from '@contexts/CurrentUserContext';
-import errorMessages from '@utils/errorMessages'; // Importa el objeto de mensajes de error
+import errorMessages from '@utils/errorMessages';
+import { INPUT_CARD_NAME_MIN_LENGTH, INPUT_CARD_NAME_MAX_LENGTH } from '@utils/validationUtils';
 
 export default function NewCard(props) {
   const { validationConfig: config } = props;
@@ -14,30 +15,28 @@ export default function NewCard(props) {
       cardTitle: '',
       cardLink: '',
     },
-    mode: 'onChange', // Cambia el modo a onChange para validar en tiempo real
+    mode: 'onChange',
   });
 
   useEffect(() => {
-    trigger(); // Valida todos los campos para actualizar errores
+    trigger();
   }, [trigger]);
 
   useEffect(() => {
-    setDisabled(!isValid); // Deshabilitar el botón si el formulario no es válido
+    setDisabled(!isValid);
   }, [isValid]);
 
-  const watchedValues = watch(); // Observa todos los valores de los inputs
+  const watchedValues = watch();
 
   useEffect(() => {
     const hasErrors = Object.keys(errors).length > 0;
     const hasEmptyFields = Object.values(watchedValues).some(value => value.trim() === '');
 
-    // Actualiza el estado disabled
     setDisabled(hasErrors || hasEmptyFields);
   }, [errors, watchedValues]);
 
   const onSubmit = (data) => {
-    // Llamar a handleUpdateUser con los datos del formulario
-    handleAddPlaceSubmit({ name: data.cardTitle, link: data.cardLink});
+    handleAddPlaceSubmit({ name: data.cardTitle, link: data.cardLink });
   };
 
   const handleValidation = (e) => {
@@ -45,16 +44,15 @@ export default function NewCard(props) {
     const value = input.value.trim();
     let errorMessage = '';
 
-    // Actualiza el campo como tocado
     setTouchedFields((prev) => ({ ...prev, [input.name]: true }));
 
     if (!value) {
       errorMessage = errorMessages.required;
     } else if (input.type === 'url' && !/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(value)) {
       errorMessage = errorMessages.url;
-    } else if (value.length < 2) {
+    } else if (value.length < INPUT_CARD_NAME_MIN_LENGTH) {
       errorMessage = errorMessages.minLength;
-    } else if (value.length > 30) {
+    } else if (value.length > INPUT_CARD_NAME_MAX_LENGTH && input.type !== 'url') {
       errorMessage = errorMessages.maxLength;
     }
 
@@ -68,8 +66,14 @@ export default function NewCard(props) {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(onSubmit)();
+    }
+  };
+
   return (
-    <form className="popup__form" noValidate onSubmit={handleSubmit(onSubmit)} >
+    <form className="popup__form" noValidate onSubmit={handleSubmit(onSubmit)} onKeyDown={handleKeyDown}>
       <fieldset className="popup__content">
         <label className="popup__field popup__field_top">
           <input
@@ -78,9 +82,9 @@ export default function NewCard(props) {
             placeholder="Titulo"
             id="title-input"
             {...register('cardTitle', { 
-              required: 'Este campo es obligatorio.',
-              minLength: { value: 2, message: 'El texto es demasiado corto.' },
-              maxLength: { value: 30, message: 'El texto es demasiado largo.' },
+              required: errorMessages.required,
+              minLength: { value: INPUT_CARD_NAME_MIN_LENGTH, message: errorMessages.minLength },
+              maxLength: { value: INPUT_CARD_NAME_MAX_LENGTH, message: errorMessages.maxLength },
             })}
             onInput={handleValidation}
             onBlur={handleValidation}
@@ -94,10 +98,10 @@ export default function NewCard(props) {
             placeholder="URL a la imagen"
             id="url-input"
             {...register('cardLink', {
-              required: 'Este campo es obligatorio.',
+              required: errorMessages.required,
               pattern: {
                 value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i,
-                message: 'La URL no es válida.',
+                message: errorMessages.url,
               },
             })}
             onInput={handleValidation}

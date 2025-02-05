@@ -15,9 +15,11 @@ export default function RemoveCard(props) {
 }
 }
 
+
+
     return (
         <div className="popup__trash">
-            <button type="button" className="popup__button popup__button_trash" onClick={() => handleDeleteClick(_id)}>
+            <button type="button" className="popup__button popup__button_trash" onClick={() => handleDeleteClick(_id)} >
               {isLoading ? "Borrando.." : "Sí"}
             </button>
           </div>
