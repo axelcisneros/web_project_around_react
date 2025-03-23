@@ -1,6 +1,6 @@
 # Tripleten web_project_around
 
-<https://axelcisneros.github.io/web_project_around_react/>
+<https://web-project-around-react-sigma.vercel.app>
 
 ## Proyecto 13: Alrededor de los EE.UU-REACT
 
